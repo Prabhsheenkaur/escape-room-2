@@ -405,6 +405,13 @@ def quit():
 ################## EXTRA FEATURES CAN BE ADDED HERE ######################################################
 ##########################################################################################################
 
+# define a function that starts the clock, countdown, and display
+''' def display_clock_countdown(t): '''
+
+# Starts the live clock and countdown display for t minutes.
+# Example: Start 5-minute countdown
+''' display_clock_countdown(5) '''
+
 # define Function to display live clock and countdown timer
 import time
 import sys
