@@ -197,120 +197,77 @@ for i in game_areas:
     
     return game_state['door_path']
 
-################## QUIZ FUNCTION  ######################################################
-def quiz(current_door):
-    # Quiz function to unlock doors
-    if (game_state.inventory in current_door):
-        print("This door is already unlocked ~ you can proceed!")
-        return player_action('play')
-    else:
-        print("Answer the following question to unlock the door:")
-        print("What is 7 + 6?")
-        answer = int(input("Your answer: "))
-        if answer == 13:
-            print("Correct! The door is now unlocked...")
-            game_state.inventory.append(current_door)
-            return True
-        else:
-            print("Incorrect answer. Try again!")
-            return quiz(current_door)
-    return player_action('play')
-# call function: quiz('door A')
-
-
-
-################## DOOR QUIZZES FUNCTIONs  ######################################################
-if door == 'door A':
+################## DOOR QUIZZES FUNCTION  ######################################################
     
+def quiz(door):
+    # Quiz function to unlock doors
+    nbr_keys = game_state['inventory'].len() # current number of keys in inventory
+    for i in nbr_keys:
+        if (door in game_state.inventory[i]):
+            print("You have the key to this door in your inventory ~ you can proceed to unlock!")
+            #######################################################################################
+            if door == 'door A': # ('door A')
+                print("Question: What is the primary function of Door A, as suggested by its location in the floor plan?")
+                print("A) To access the outdoors.")
+                print("B) To provide entry or exit to a specific room.")
+                print("C) To serve as a decorative element.")
 
-def quiz('door A'):
-    print("Question: What is the primary function of Door A, as suggested by its location in the floor plan?")
-    print("A) To access the outdoors.")
-    print("B) To provide entry or exit to a specific room.")
-    print("C) To serve as a decorative element.")
+                answer = input("Enter your choice (A, B, or C): ").upper()
+                if answer == "B":
+                    print("Correct! Door A is most likely for entering or exiting a room.")
+                else:
+                    print("Incorrect. Try again!")
+                    return player_action('play')
+            #######################################################################################
+            if door == 'door B': #('door B')
+                print("Question: Considering the layout, which room is Door B most likely connected to?")
+                print("A) The Game Room")
+                print("B) Bedroom 1")
+                print("C) The Outdoors")
 
-    answer = input("Enter your choice (A, B, or C): ").upper()
+                answer = input("Enter your choice (A, B, or C): ").upper()
+                if answer == "B":
+                    print("Correct! Based on the plan, Door B likely leads to Bedroom 1.")
+                else:
+                    print("Incorrect. Try again!")
+            #######################################################################################
+            if door == 'door C': #('door C')
+                print("Question: If you wake up on the couch, and the key to Door C is found nearby, what is the most logical room Door C leads to, considering the floor plan?")
+                print("A) The Game Room")
+                print("B) Bedroom 2")
+                print("C) The Outdoors")
+            
+                answer = input("Enter your choice (A, B, or C): ").upper()
+                if answer == "C":
+                    print("Correct! It makes sense that Door C might lead outside.")
+                else:
+                    print("Incorrect. Consider the layout again!")
+            #######################################################################################
+            if door == 'door D': #('door D')
+                print("Question: Considering the floor plan, and the fact you woke up on the couch, where is Door D most likely located?")
+                print("A) In the Game Room")
+                print("B) In Bedroom 1")
+                print("C) Not visible on the plan")
 
-    if answer == "B":
-        print("Correct! Door A is most likely for entering or exiting a room.")
-    else:
-        print("Incorrect. Try again!")
-
-
-
-def door_b_quiz():
-    print("Question: Considering the layout, which room is Door B most likely connected to?")
-    print("A) The Game Room")
-    print("B) Bedroom 1")
-    print("C) The Outdoors")
-
-    answer = input("Enter your choice (A, B, or C): ").upper()
-
-    if answer == "B":
-        print("Correct! Based on the plan, Door B likely leads to Bedroom 1.")
-    else:
-        print("Incorrect. Try again!")
-
-
-def door_c_quiz():
-    print("Question: If you wake up on the couch, and the key to Door C is found nearby, what is the most logical room Door C leads to, considering the floor plan?")
-    print("A) The Game Room")
-    print("B) Bedroom 2")
-    print("C) The Outdoors")
-
-    answer = input("Enter your choice (A, B, or C): ").upper()
-
-    if answer == "C":
-        print("Correct! It makes sense that Door C might lead outside.")
-    else:
-        print("Incorrect. Consider the layout again!")
-
-
-
-def door_d_quiz():
-    print("Question: Considering the floor plan, and the fact you woke up on the couch, where is Door D most likely located?")
-    print("A) In the Game Room")
-    print("B) In Bedroom 1")
-    print("C) Not visible on the plan")
-
-    answer = input("Enter your choice (A, B, or C): ").upper()
-
-    if answer == "C":
-        print("Correct! Since Door D isn't shown, it's not visible on the plan.")
-    else:
-        print("Incorrect. Maybe Door D is a secret door?")
+                answer = input("Enter your choice (A, B, or C): ").upper()
+                if answer == "C":
+                    print("Correct! Since Door D isn't shown, it's not visible on the plan.")
+                else:
+                    print("Incorrect. Maybe Door D is a secret door?")
+                        
+    return 
 
 
-################## PLAYER_INPUT = NAVIGATE  ######################################################
-print('Player is navigating to a new space!')
 
-def navigate(space, door, inventory):
-    print(f'Navigating through the {door}')
-    if door in game_paths[door_path] and space in spaces:
 
-        # space is new_space
-        while (action == 'unlock door' and action != 'quit' and action != 'restart'): # While loop
-            if ('door A' in space) and ('door B' not in space) and ('door C' not in space) and ('door D' not in space):
-                update_space_path('game room')
 
-            elif ('door A' in space) and ('door B' in space) and ('door C' in space) and ('door D' not in space):
-                update_space_path('bedroom 1')
-        
-            elif ('door A' not in space) and ('door B' in space) and ('door C' not in space) and ('door D' not in space):
-                update_space_path('bedroom 2')
-        
-            elif ('door A' not in space) and ('door B' not in space) and ('door C' in space) and ('door D' in space):
-                update_space_path('living room')
-        
-            elif ('door A' not in space) and ('door B' not in space) and ('door C' not in space) and ('door D' in space):
-                update_space_path('outside')
-                print("FREEDOM | YOU WIN !")
-                print(game_state)
-                break
-            else:
-                ("UNKNOWN SPACE in the system?")
-            print(f'You are now in{space}')
-        update_space_path(space)
+
+
+
+
+
+
+
 
 
 
@@ -365,7 +322,41 @@ def update_game_state(door: str, key: str, item: str, space: str):
     update_inventory(key) #update key
     display_clock_countdown() #run clock countdown
 
-    
+################## PLAYER_INPUT = NAVIGATE  ######################################################
+
+print('Player is navigating to a new space!')
+
+def navigate(space, door, inventory):
+    print(f'Navigating through the {door}')
+    if door in game_paths[door_path] and space in spaces:
+
+        # space is new_space
+        while (action == 'unlock door' and action != 'quit' and action != 'restart'): # While loop
+            if ('door A' in space) and ('door B' not in space) and ('door C' not in space) and ('door D' not in space):
+                update_space_path('game room')
+
+            elif ('door A' in space) and ('door B' in space) and ('door C' in space) and ('door D' not in space):
+                update_space_path('bedroom 1')
+        
+            elif ('door A' not in space) and ('door B' in space) and ('door C' not in space) and ('door D' not in space):
+                update_space_path('bedroom 2')
+        
+            elif ('door A' not in space) and ('door B' not in space) and ('door C' in space) and ('door D' in space):
+                update_space_path('living room')
+        
+            elif ('door A' not in space) and ('door B' not in space) and ('door C' not in space) and ('door D' in space):
+                update_space_path('outside')
+                print("FREEDOM | YOU WIN !")
+                print(game_state)
+                break
+            else:
+                ("UNKNOWN SPACE in the system?")
+            print(f'You are now in{space}')
+        update_space_path(space)
+
+
+
+
 ################## RESTART FUNCTION ######################################################
 
 def restart(answer: bool):
