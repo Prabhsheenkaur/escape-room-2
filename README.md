@@ -1,2 +1,2 @@
-# escape-room-2
-The new version of escape room
+# project-01-escape-room-game
+POSH SPICE TEAM, we created an escape room game based on text and python
