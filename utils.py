@@ -1,8 +1,16 @@
 ##############################################################################################
+#################### HOW TO USE UTILS ########################################################
+
+def function_name
+
+
+
+
+##############################################################################################
 ################## DATA LISTs  ###############################################################
 ##############################################################################################
 # LIST : actions available to a player
-actions = ['explore', 'examine', 'unlock door', 'navigate', 'restart', 'quit']
+actions = ['explore', 'examine', 'unlock door', 'navigate', 'restart', 'quit','play']
 
 # LIST : spaces
 spaces = ['game room', 'bedroom 1', 'bedroom 2', 'living room','outside']
@@ -71,26 +79,78 @@ game_state = {
 # 4) navigate
 # // 
 # // update_space_path(space)
+###################################################################################################################
 
-################## PLAYER_ACTION(PLAYER_INPUT) MAIN FUNCTION ######################################################
+actions = ['explore', 'examine', 'unlock door', 'navigate', 'restart', 'quit', 'play']
 
-
-# While Loop, if else, break, return : player_action function
 def player_action(player_input: str):
-    while player_input != 'quit' and player_input != 'restart': # While player_input is not 'quit' and 'restart'
-        print("\Here is a list of actions :",actions) # Print the list of actions
-        action = input("PLAYER! Enter your action:").lower() # Player inputs space of choice
-        if action in actions:
-            return action
-        elif action == 'quit': # Exit the function to restart the game
+    while True:
+        action = player_input.strip().lower()
+
+        # Invalid input → show available actions and ask again
+        if action not in actions:
+            print("\nInvalid action! Please choose one of the following:")
+            print(", ".join(actions))
+            player_input = input("Enter an action: ")
+            continue
+
+        # Quit the game
+        if action == 'quit':
+            print(f"\nPlayer inputs the action: {action}")
             print("Quitting the game. Goodbye!")
             break
-        elif action == 'restart': # Restart the game
+
+        # Restart the game
+        elif action == 'restart':
+            print(f"\nPlayer inputs the action: {action}")
+            print("Game restarting!")
+            player_input = 'play'
+            continue  # Restart goes back to play automatically
+
+        # Play the game
+        elif action == 'play':
+            print(f"\nPlayer inputs the action: {action}")
+            print("Starting the game...")
+            # You can add your game logic here
+            player_input = input("Enter next action: ")
+            continue
+
+        # Other valid actions
+        else:
+            print(f"\nPlayer inputs the action: {action}")
+            print(f"Performing action: {action}")
+            player_input = input("Enter next action: ")
+            continue
+
+
+
+################## PLAYER_ACTION(PLAYER_INPUT) MAIN FUNCTION ######################################################
+def player_action(player_input: str):
+    action = player_input
+    while player_input in actions:    
+        # Quit the game
+        if player_input=='quit': 
+                print(f"Player inputs the  action: {action}")
+                print("Quitting the game. Goodbye!")
+                break
+        # Restart the game
+        elif player_input == 'restart': 
+            print(f"Player inputs the  action: {action}")
             print("Game restarting!")
             player_action('play')
+        # Play the game
+        elif player_input == 'play':
+            while player_input=='play' and player_input != 'quit' and player_input != 'restart': # While player_input is not 'quit' and 'restart'
+                print(f"Player inputs the  action: {action}")
+                return action
+        # Value Erorr
         else:
             print("Value Error, choose again!")
-    return action
+################## start_game('play') MAIN FUNCTION ######################################################
+
+def game_start():
+    return player_action('play')
+
 
 
 
@@ -181,45 +241,51 @@ def check(space, select_item, key):
     #player_input = 'unlock door'
     # action = player_input  
     # action = 'unlock door'
+
+inventory = game_state['inventory']
+action = 'unlock door'
+space = 'game room'
+door = 'door A'
 # define Function : unlock_door(action, door, inventory, space)
 action = 'unlock door'
-def unlock_door(action, space, door, inventory:list):
+def unlock_door(inventory:list, action, space, door):
     while action=='unlock door' and action!='quit' and action!='restart': # While action is not 'quit' and 'restart'
-        for 'door' in :
-        
-        for i in game_areas:
-            for y in game_areas[i][y]:
+        # we check every key and door cuz we have to compare two string 'door A' in 'key door A'
+        for key in game_state['inventory']:
+            if  door in game_state['inventory'][key]:
+                print("You have the key in your inventory to unlock it ... POP QUIZ! Answer correctly to unlock it! ")
+                quiz(door)
+                if quiz(door)==True:
+                    update_door_path(door)
 
+            
+        # unlocked door
 
-
-        if inventory[i] in game_state['inventory']:
-            unlock()
-
-        print(f'You chose to unlock in {space} ')
+    while door in doors:    
+        print(f'You chose to unlock {door} in {space}')
         if door in space:
             door = input("Enter the door you want to try unlock : ").lower() # Player inputs space of choice
-            
-        if door in doors:
             print(f'Player chose to try unlock: {door}')
-    for i in inventory:
-        if key in inventory[i]:
+    for i in game_state[inventory]:
+        if key  in inventory[i]:
             print(f"This key is already in your inventory !")
             return True
         quiz(door)
         update_door_path(door)
         
-        return game_state['door_path']
+    return result # if true unlocked if false still locked
 
-################## DOOR QUIZZES FUNCTION  ######################################################
-    
-def quiz(door):
+############################## QUIZ FUNCTION ###########################################################################################
+inventory = game_state['inventory']
+key = 'key door A'
+
+def quiz(inventory:list, door:str, key:str):
     # Quiz function to unlock doors
-    nbr_keys = game_state['inventory'].len() # current number of keys in inventory
-    for i in nbr_keys:
-        if (door in game_state.inventory[i]):
+    for key in inventory:
+        if door in inventory:
             print("You have the key to this door in your inventory ~ you can proceed to unlock!")
             #######################################################################################
-            if door == 'door A': # ('door A')
+            if door == 'door A': # quiz('door A')
                 print("Question: What is the primary function of Door A, as suggested by its location in the floor plan?")
                 print("A) To access the outdoors.")
                 print("B) To provide entry or exit to a specific room.")
@@ -228,11 +294,14 @@ def quiz(door):
                 answer = input("Enter your choice (A, B, or C): ").upper()
                 if answer == "B":
                     print("Correct! Door A is most likely for entering or exiting a room.")
+                    quiz_answer=True
                 else:
-                    print("Incorrect. Try again!")
+                    print("Incorrect. Try another time!")
+                    quiz_answer=False
                     return player_action('play')
+                    
             #######################################################################################
-            if door == 'door B': #('door B')
+            elif door == 'door B': # quiz('door B')
                 print("Question: Considering the layout, which room is Door B most likely connected to?")
                 print("A) The Game Room")
                 print("B) Bedroom 1")
@@ -241,22 +310,28 @@ def quiz(door):
                 answer = input("Enter your choice (A, B, or C): ").upper()
                 if answer == "B":
                     print("Correct! Based on the plan, Door B likely leads to Bedroom 1.")
+                    quiz_answer=True
                 else:
-                    print("Incorrect. Try again!")
+                    print("Incorrect. Try another time!")
+                    quiz_answer=False
+                    return player_action('play')
             #######################################################################################
-            if door == 'door C': #('door C')
+            elif door == 'door C': # quiz('door C')
                 print("Question: If you wake up on the couch, and the key to Door C is found nearby, what is the most logical room Door C leads to, considering the floor plan?")
                 print("A) The Game Room")
                 print("B) Bedroom 2")
                 print("C) The Outdoors")
-            
+                
                 answer = input("Enter your choice (A, B, or C): ").upper()
                 if answer == "C":
                     print("Correct! It makes sense that Door C might lead outside.")
+                    quiz_answer=True
                 else:
                     print("Incorrect. Consider the layout again!")
+                    quiz_answer=False
+                    return player_action('play')
             #######################################################################################
-            if door == 'door D': #('door D')
+            elif door == 'door D': # quiz('door D')
                 print("Question: Considering the floor plan, and the fact you woke up on the couch, where is Door D most likely located?")
                 print("A) In the Game Room")
                 print("B) In Bedroom 1")
@@ -265,12 +340,15 @@ def quiz(door):
                 answer = input("Enter your choice (A, B, or C): ").upper()
                 if answer == "C":
                     print("Correct! Since Door D isn't shown, it's not visible on the plan.")
+                    quiz_answer=True
                 else:
                     print("Incorrect. Maybe Door D is a secret door?")
-                        
-    return 
+                    quiz_answer=False
+                    return player_action('play')
+            #######################################################################################
+    return quiz_answer
 
-
+######################################################################################################
 
 
 
