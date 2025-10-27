@@ -4,6 +4,9 @@
 # LIST : actions available to a player
 actions = ['explore', 'examine', 'unlock door', 'navigate', 'restart', 'quit']
 
+# LIST : spaces
+spaces = ['game room', 'bedroom 1', 'bedroom 2', 'living room','outside']
+
 # LIST : items
 items = ['couch', 'piano', 'queen bed', 'double bed', 'dresser', "dining table"]
 
@@ -12,6 +15,9 @@ doors = ['door A', 'door B', 'door C', 'door D']
 
 # LIST : keys
 keys = ['key door A', 'key door B', 'key door C', 'key door D']
+
+
+
 
 ##############################################################################################
 ################## DATA DICTs  ###############################################################
@@ -175,27 +181,34 @@ def check(space, select_item, key):
     #player_input = 'unlock door'
     # action = player_input  
     # action = 'unlock door'
-# define Function : unlock_door(action, door, inventory, current_space)
-def unlock_door(action, space, door, inventory: list ):
-for i in game_areas:
-    
-    if 'key door A' in game_state['inventory']:
-        unlock()
-
-    print(f'You chose to unlock in {current_space} ')
-        if door in space:
-        door = input("Enter the door you want to try unlock : ").lower() # Player inputs space of choice
+# define Function : unlock_door(action, door, inventory, space)
+action = 'unlock door'
+def unlock_door(action, space, door, inventory:list):
+    while action=='unlock door' and action!='quit' and action!='restart': # While action is not 'quit' and 'restart'
+        for 'door' in :
         
+        for i in game_areas:
+            for y in game_areas[i][y]:
+
+
+
+        if inventory[i] in game_state['inventory']:
+            unlock()
+
+        print(f'You chose to unlock in {space} ')
+        if door in space:
+            door = input("Enter the door you want to try unlock : ").lower() # Player inputs space of choice
+            
         if door in doors:
             print(f'Player chose to try unlock: {door}')
-
-            if key in inventory:
-                print(f"This key is already in your inventory !")
-                return True
-    quiz(door)
-    update_door_path(door)
-    
-    return game_state['door_path']
+    for i in inventory:
+        if key in inventory[i]:
+            print(f"This key is already in your inventory !")
+            return True
+        quiz(door)
+        update_door_path(door)
+        
+        return game_state['door_path']
 
 ################## DOOR QUIZZES FUNCTION  ######################################################
     
@@ -326,9 +339,9 @@ def update_game_state(door: str, key: str, item: str, space: str):
 
 print('Player is navigating to a new space!')
 
-def navigate(space, door, inventory):
+def navigate(action, space, door, inventory):
     print(f'Navigating through the {door}')
-    if door in game_paths[door_path] and space in spaces:
+    if door in game_paths['door_path'] and space in spaces:
 
         # space is new_space
         while (action == 'unlock door' and action != 'quit' and action != 'restart'): # While loop
