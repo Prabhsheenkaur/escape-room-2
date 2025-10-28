@@ -1,7 +1,7 @@
 ##############################################################################################
 #################### HOW TO USE UTILS ########################################################
 
-def function_name
+# def function_name
 
 
 
@@ -42,14 +42,16 @@ game_areas = {
 }
 
 #############################################################################################
-
 # Keep track of the player : current space; current item to examine; and inventory of keys
-# Dict : GAME STATE
+
+# Dictionary : GAME STATE
 game_state = {
-    'space_path' : [], # player current space to navigate and make a space path
-    'item_path' : [], # to select an item to examine for key; and make an item path
+    'space paths' : [], # player current space to navigate and make a space path
+    'item paths' : [], # to select an item to examine for key; and make an item path
+    'door paths': [], # to select a door in currentspace and track unlocked doors already and locked ones
     'inventory': [], # to store found keys
-    'time': ["display_clock_countdown"] , #library time for live timer and countdown
+    'time': "display_clock_countdown" , #library time for live timer and countdown
+    'health': 100,
 }
 
 
@@ -364,32 +366,25 @@ def quiz(inventory:list, door:str, key:str):
 
 ################## GAME PATHS ######################################################
 
-# DICTIONARY : to track paths taken by player spaces, items, doors
-game_paths = {
-    'space_path': [],
-    'item_path': [],
-    'door_path': [],
-}
-
-# update space path [game room, bedroom 1, bedroom 2...]
+# update space paths [game room, bedroom 1, bedroom 2...]
 def update_space_path(current_space:str):
-    game_paths['space path'].append(current_space)
-    return game_paths['space path']
+    game_state['space paths'].append(current_space)
+    return game_state['space paths']
 
 # update item path [couch, piano, queen bed...]
 def update_item_path(item:str):
-    game_paths['item path'].append(item)
-    return game_paths['item path']
+    game_state['item path'].append(item)
+    return game_state['item path']
 
 # update door path [door A, door B, door C, ...]
 def update_door_path(door:str):
-    game_paths['door path'].append(door)
-    return game_paths['door path']
+    game_state['door path'].append(door)
+    return game_state['door path']
 
 # update inventory [key door A, key door B, key door C...]
 def update_inventory(key:str):
-    game_paths['inventory'].append(key)
-    return game_paths['inventory']
+    game_state['inventory'].append(key)
+    return game_state['inventory']
 
 # display_clock_countdown
 
@@ -419,7 +414,7 @@ print('Player is navigating to a new space!')
 
 def navigate(action, space, door, inventory):
     print(f'Navigating through the {door}')
-    if door in game_paths['door_path'] and space in spaces:
+    if door in game_state['door_path'] and space in spaces:
 
         # space is new_space
         while (action == 'unlock door' and action != 'quit' and action != 'restart'): # While loop
@@ -462,7 +457,7 @@ def reset_game_state():
     
     if answer.low() == 'yes':
         print("Restarting the game...")
-        game_state["space_path"].append('game room')
+        game_state["space_path"].clear()
         game_state["item_path"].clear()
         game_state["inventory"].clear()
         game_state["door_path"].clear()
